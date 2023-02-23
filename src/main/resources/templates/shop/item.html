@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Item</title>
+</head>
+<body>
+<!--/*@thymesVar id="item" type="ru.demo.shop.models.Item"*/-->
+<a th:href="@{/shop}">Все товары</a>
+<a>/</a>
+<a th:href="@{/shop/{id} (id=${item.getCategory().getId()})}" th:text="${item.getCategory().getName()}"></a>
+<a>/</a>
+<a th:text="${item.getName()}"></a>
+<a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:if="${isLoggedIn}" th:href="@{/user}" th:text="${username}">Страница пользователя</a>
+<a th:if="!${isLoggedIn}" th:href="@{/auth/login}">Войти</a>
+<a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:href="@{/orders/cart}">Корзина</a>
+
+<p th:text="${item.getName()}"></p>
+<p th:text="'Цена: ' + ${item.getPrice()} + ' руб.'"></p>
+<p th:text="'Описание: ' + ${item.getDescription()}"></p>
+<p th:text="'Осталось: ' + ${item.getStock()} + ' шт.'"></p>
+
+<form th:method="PATCH" th:action="@{/orders/cart}">
+    <label for="quantity">Количество: </label>
+    <input type="number" id="quantity" name="quantity">
+    <input type="hidden" th:value="${item.getId()}" name="itemId" >
+    <input type="submit" value="Добавить в корзину">
+</form>
+</body>
+</html>

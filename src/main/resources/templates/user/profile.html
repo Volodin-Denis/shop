@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${userDetails.getUsername()} + ' - Страница пользователя'">Пользователь</title>
+</head>
+<body>
+<!--/*@thymesVar id="userDetails" type="ru.demo.shop.security.UserDetails"*/-->
+<p th:text="'Имя пользователя: ' + ${userDetails.getUsername()}"></p>
+<p th:text="'Электронная почта: ' + ${userDetails.getEmail()}"></p>
+
+<p th:if="!${userDetails.getUser().getAddressList().isEmpty()}">Адреса:</p>
+<p th:if="${userDetails.getUser().getAddressList().isEmpty()}">Адресов нет</p>
+<div th:if="!${userDetails.getUser().getAddressList().isEmpty()}" th:each="address : ${userDetails.getUser().getAddressList()}">
+    <a th:text="${address.getName()}">address</a>
+    <br/>
+</div>
+<br/>
+<form th:method="POST" th:action="@{/user/address}">
+    <label for="address">Введите адрес</label>
+    <input type="text" id="address" name="address">
+    <input type="submit" value="Добавить адрес">
+</form>
+</body>
+</html>

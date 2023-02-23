@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="cart" type="ru.demo.shop.models.Order"*/-->
+<a th:href="@{/shop}">Все товары</a>
+<a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:href="@{/user}" th:text="${user.getUsername()}">Страница пользователя</a>
+<a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:href="@{/orders/cart}">Корзина</a>
+<br/>
+<br/>
+<p th:if="${cart.getOrderedItems().isEmpty()}">Ваша корзина пуста!</p>
+<div th:each="orderedItem : ${cart.getOrderedItems()}">
+    <a th:href="@{/shop/item/{id} (id=${orderedItem.getItem().getId()}) }" th:text="${orderedItem.getItem().getName()
+     + ', ' + orderedItem.getItem().getPrice() + ' руб., ' + orderedItem.getItemQuantity() + ' шт'}">item</a>
+    <form th:method="DELETE" th:action="@{/orders/cart}">
+        <input type="hidden" th:value="${orderedItem.getItem().getId()}" name="itemId" >
+        <input type="submit" value="Удалить">
+    </form>
+    <br/>
+</div>
+
+<a th:if="!${cart.getOrderedItems().isEmpty()}" th:text="'Общая стоимость заказа: ' + ${cart.getPrice()} + ' руб.'"></a>
+<br/>
+<br/>
+<!--/*@thymesVar id="user" type="ru.demo.shop.models.User"*/-->
+<form th:if="!${cart.getOrderedItems().isEmpty() || user.getAddressList().isEmpty()}" th:method="POST" th:action="@{/orders/cart}">
+    <select th:object="${address}" th:field="*{id}" id = "address">
+        <option th:each="address : ${user.getAddressList()}" th:value="${address.getId()}" th:text="${address.getName()}"></option>
+    </select>
+    <input type="submit" value="Оформить">
+</form>
+</body>
+</html>

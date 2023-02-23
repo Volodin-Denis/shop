@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Исторя заказов</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="orderList" type="java.util.List<ru.demo.shop.models.Order>"*/-->
+<div th:each="order : ${orderList}">
+    <a th:text="${'Заказ №' + order.getId() + ', ' + order.getPrice() + ' руб.' + 'Статус: ' + order.getStatus().getName()}">item</a>
+    <br/>
+</div>
+
+</body>
+</html>

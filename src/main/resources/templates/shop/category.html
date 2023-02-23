@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="category" type="ru.demo.shop.models.Category"*/-->
+<a th:href="@{/shop}">Все товары</a><a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:if="${isLoggedIn}" th:href="@{/user}" th:text="${username}">Страница пользователя</a>
+<a th:if="!${isLoggedIn}" th:href="@{/auth/login}">Войти</a>
+<a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+<a th:href="@{/orders/cart}">Корзина</a>
+
+<a>/</a>
+<a th:text="${category.getName()}"></a>
+<br/>
+<br/>
+<!--/*@thymesVar id="items" type="java.util.List<ru.demo.shop.models.Item>"*/-->
+<div th:each="item : ${items}">
+    <a th:href="@{/shop/item/{id} (id=${item.getId()}) }" th:text="${item.getName() + ', ' + item.getPrice() + ' руб.'}">item</a>
+    <br/>
+</div>
+</body>
+</html>
